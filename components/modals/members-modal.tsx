@@ -53,7 +53,7 @@ export function MembersModal() {
 
   const isModalOpen = isOpen && type === "members";
   const { server } = data as {
-    server: ServerWithMembersWithProfiles | undefined;
+    server: ServerWithMembersWithProfiles;
   };
 
   async function onRoleChange(memberId: string, role: MemberRole) {
@@ -85,7 +85,7 @@ export function MembersModal() {
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
             {server?.members?.length} Member
-            {server?.members.length > 1 ? "s" : null}
+            {server?.members?.length > 1 ? "s" : null}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="mt-8 max-h-[420px] pr-6">
