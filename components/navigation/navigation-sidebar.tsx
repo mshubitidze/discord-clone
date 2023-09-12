@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
 import { ModeToggle } from "@/components/mode-toggle";
+import { dark } from "@clerk/themes";
 
 export async function NavigationSidebar() {
   const profile = await currentProfile();
@@ -45,6 +46,7 @@ export async function NavigationSidebar() {
         <UserButton
           afterSignOutUrl="/"
           appearance={{
+            baseTheme: dark,
             elements: {
               avatarBox: "h-[48px] w-[48px]",
             },

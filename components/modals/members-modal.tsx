@@ -56,6 +56,23 @@ export function MembersModal() {
     server: ServerWithMembersWithProfiles;
   };
 
+  async function onKick(memberId: string) {
+    try {
+      setLoadingId(memberId);
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        },
+      });
+      const response = await axios.delete(url);
+      router.refresh();
+      onOpen("members", { server: response.data });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function onRoleChange(memberId: string, role: MemberRole) {
     try {
       setLoadingId(memberId);
@@ -63,7 +80,6 @@ export function MembersModal() {
         url: `/api/members/${memberId}`,
         query: {
           serverId: server?.id,
-          memberId,
         },
       });
       const response = await axios.patch(url, { role });
@@ -125,18 +141,22 @@ export function MembersModal() {
                                   <Check className="h-4 w-4 ml-auto" />
                                 )}
                               </DropdownMenuItem>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() =>
+                                  onRoleChange(member.id, MemberRole.MODERATOR)
+                                }
+                              >
                                 <ShieldCheck className="h-4 w-4 mr-2" />
                                 Moderator
                                 {member.role === MemberRole.MODERATOR && (
-                                  <Shield className="h-4 w-4 ml-auto" />
+                                  <Check className="h-4 w-4 ml-auto" />
                                 )}
                               </DropdownMenuItem>
                             </DropdownMenuSubContent>
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onKick(member.id)}>
                           <Gavel className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
