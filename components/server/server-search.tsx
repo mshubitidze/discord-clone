@@ -12,12 +12,10 @@ import {
 } from "@/components/ui/command";
 import { useParams, useRouter } from "next/navigation";
 
-type ServerSearchDataType = "channel" | "member";
-
 interface ServerSearchProps {
   data: {
     label: string;
-    type: ServerSearchDataType;
+    type: "channel" | "member";
     data:
       | {
           icon: React.ReactNode;
@@ -45,7 +43,7 @@ export function ServerSearch({ data }: ServerSearchProps) {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  function onClick({ id, type }: { id: string; type: ServerSearchDataType }) {
+  function onClick({ id, type }: { id: string; type: "channel" | "member" }) {
     setOpen(false);
     if (type === "member") {
       return router.push(`/servers/${params?.serverId}/conversations/${id}`);
@@ -71,7 +69,7 @@ export function ServerSearch({ data }: ServerSearchProps) {
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search all channels and members" />
-        <CommandList>
+        <CommandList className="my-1">
           <CommandEmpty>No results found</CommandEmpty>
           {data.map(({ label, type, data }) => {
             if (!data?.length) return null;
