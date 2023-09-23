@@ -69,7 +69,7 @@ export function ServerSearch({ data }: ServerSearchProps) {
       </button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search all channels and members" />
-        <CommandList className="my-1">
+        <CommandList>
           <CommandEmpty>No results found</CommandEmpty>
           {data.map(({ label, type, data }) => {
             if (!data?.length) return null;
